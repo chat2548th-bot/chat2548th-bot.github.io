@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Slip</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <iframe id="formframe" src="" frameborder="0"></iframe>
+    
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        function runApp() {
+            liff.getProfile().then(profile => {
+                let userId = profile.userId;
+                let displayName = profile.displayName;
+                let pictureUrl = profile.pictureUrl;
+
+                let url = "https://script.google.com/macros/s/AKfycbw1PoeztGTRMIsHd9RmQn1SWSLw1TZtlNQ7afYWdDi9bUPl1-GPaVVVU9Cnq1E0pwc/exec?userId=" + encodeURIComponent(userId) +
+                          "&displayName=" + encodeURIComponent(displayName) +
+                          "&pictureUrl=" + encodeURIComponent(pictureUrl);   
+                document.getElementById("formframe").src = url;
+            }).catch(err => {
+                console.error(err);
+                alert('เกิดข้อผิดพลาดในการดึงข้อมูลโปรไฟล์: ' + err.message);
+            });
+        }
+
+        liff.init({ liffId: "2006644781-4vQmNEAX" }, () => {
+            if (liff.isLoggedIn()) {
+                runApp();
+            } else {
+                liff.login();
+            }
+        }, err => console.error(err.code, err.message));
+    </script>
+</body>
+
+</html>
+
